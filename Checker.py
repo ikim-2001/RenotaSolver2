@@ -5,10 +5,10 @@ from json_form import *
 
 class Checker():
     def __init__(self, input_json):
-
-
+        print(input_json)
+        self.input_json = input_json
         self.text = []
-        for line in json_inequalities.dict.values():
+        for line in input_json.values():
             self.text.append(line.replace("–", "-"))
         self.problem = self.text[0].replace(" ", "")
         self.isCorrect = None
@@ -27,6 +27,8 @@ class Checker():
         self.isCorrect = self.verify()
         self.consistent_comparators = None
 
+    def return_input_json(self):
+        return self.input_json
 
     # returns new self.problem where coeffs are separated to
     # vars with a * (will do parenthessis later)
@@ -118,7 +120,3 @@ class Checker():
             return "="
 
 
-
-
-
-check = Checker(input_json=None)

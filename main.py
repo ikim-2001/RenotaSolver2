@@ -214,13 +214,13 @@ class Main():
         first_comparator = self.check.find_comparator(self.check.text[0])
         last_comparator = self.check.find_comparator(self.check.text[-1])
         first_left = Term(1, self.check.text[0].strip().split(first_comparator)[0].replace(" ", "").replace(self.variable, "x"), {"x": eval(self.check.true_output), "": 1}, {"x": eval(self.check.true_output)*2, "": 1},
-                                      {"x": eval(self.check.true_output)/2, "": 1}, {"1's": 0, "x's": 0}, 0)
+                                      {"x": eval(self.check.true_output)/2, "": 1}, {"1's": 0, "x's": 0}, 0, self.check)
         first_right = Term(1, self.check.text[0].strip().split(first_comparator)[1].replace(" ", "").replace(self.variable, "x"), {"x": eval(self.check.true_output), "": 1}, {"x": eval(self.check.true_output)*2, "": 1},
-                                      {"x": eval(self.check.true_output)/2, "": 1}, {"1's": 0, "x's": 0}, 0)
+                                      {"x": eval(self.check.true_output)/2, "": 1}, {"1's": 0, "x's": 0}, 0, self.check)
         last_left = Term(1, self.check.text[-1].strip().split(last_comparator)[0].replace(" ", "").replace(self.variable, "x"), {"x": eval(self.check.true_output), "": 1}, {"x": eval(self.check.true_output)*2, "": 1},
-                                      {"x": eval(self.check.true_output)/2, "": 1}, {"1's": 0, "x's": 0}, 0)
+                                      {"x": eval(self.check.true_output)/2, "": 1}, {"1's": 0, "x's": 0}, 0, self.check)
         last_right = Term(1, self.check.text[-1].strip().split(last_comparator)[1].replace(" ", "").replace(self.variable, "x"), {"x": eval(self.check.true_output), "": 1}, {"x": eval(self.check.true_output)*2, "": 1},
-                                      {"x": eval(self.check.true_output)/2, "": 1}, {"1's": 0, "x's": 0}, 0)
+                                      {"x": eval(self.check.true_output)/2, "": 1}, {"1's": 0, "x's": 0}, 0, self.check)
         # print(f"FIRST LINE: {first_left.term_content} {first_comparator} {first_right.term_content}")
         # print(f"LAST LINE: {last_left.term_content} {last_comparator} {last_right.term_content}")
         # boolean triple refers to the inequality holding if:
@@ -272,25 +272,25 @@ class Main():
             left_side = Term(1, self.check.text[i].strip().split(curr_comparator)[0].replace(" ", "").replace(
                 self.variable, "x"),
                              {"x": eval(self.check.true_output), "": 1}, {"x": float(eval(curr_inflection))+1, "": 1},
-                             {"x": float(eval(curr_inflection))-1, "": 1}, {"1's": 0, "x's": 0}, 0)
+                             {"x": float(eval(curr_inflection))-1, "": 1}, {"1's": 0, "x's": 0}, 0, self.check)
             right_side = Term(1, self.check.text[i].strip().split(curr_comparator)[1].replace(" ", "").replace(
                 self.variable, "x"),
                               {"x": eval(self.check.true_output), "": 1},
                               {"x": float(eval(curr_inflection))+1, "": 1},
-                              {"x": float(eval(curr_inflection))-1, "": 1}, {"1's": 0, "x's": 0}, 0)
+                              {"x": float(eval(curr_inflection))-1, "": 1}, {"1's": 0, "x's": 0}, 0, self.check)
             # condition in which we find the wrong line
             prev_left_side = Term(1,
                                   self.check.text[i - 1].strip().split(old_comparator)[0].replace(" ", "").replace(
                                       self.variable, "x"),
                                   {"x": eval(self.check.true_output), "": 1},
                                   {"x": float(eval(prev_inflection))+1, "": 1},
-                                  {"x": float(eval(prev_inflection))-1, "": 1}, {"1's": 0, "x's": 0}, 0)
+                                  {"x": float(eval(prev_inflection))-1, "": 1}, {"1's": 0, "x's": 0}, 0, self.check)
             prev_right_side = Term(1,
                                    self.check.text[i - 1].strip().split(old_comparator)[1].replace(" ", "").replace(
                                        self.variable, "x"),
                                    {"x": eval(self.check.true_output), "": 1},
                                    {"x":float(eval(curr_inflection))+1, "": 1},
-                                   {"x": float(eval(curr_inflection))-1, "": 1}, {"1's": 0, "x's": 0}, 0)
+                                   {"x": float(eval(curr_inflection))-1, "": 1}, {"1's": 0, "x's": 0}, 0, self.check)
 
             left_side_ineq, right_side_ineq = copy.deepcopy(left_side), copy.deepcopy(right_side)
             prev_left_side_ineq, prev_right_side_ineq = copy.deepcopy(prev_left_side), copy.deepcopy(prev_right_side)
@@ -593,3 +593,9 @@ class Main():
         output_json = {"solver": str}
         print(output_json)
         return output_json
+
+dict = {
+    "0": "-8x+2 < -3(2x-6)",
+    "1": "-8x+2 < -6x-18",
+    "2": "-2x+2 < -18"
+}

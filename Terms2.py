@@ -3,10 +3,11 @@ import copy
 from Checker import *
 from string import ascii_uppercase
 alphabet = list(ascii_uppercase)*10000
-class Term:
-    def __init__(self, _term_coefficient, _input_string, inflectiondict, greaterdict, lesserdict, _constants_vars_dict, _input_stack_level):
+class Term():
+    def __init__(self, _term_coefficient, _input_string, inflectiondict, greaterdict, lesserdict, _constants_vars_dict, _input_stack_level, check):
         # self.potential_problems = _input_potential_problems
         # self.input_string_lookup_dict = _input_string_lookup_dict
+        self.check = check
         self.input_string_lookup_dict = inflectiondict
         self.input_string_lookup_dict_greater = greaterdict
         self.input_string_lookup_dict_lesser = lesserdict
@@ -17,7 +18,6 @@ class Term:
         # recursively incremented with each new child term class
         self.input_stack_level = _input_stack_level
         self.constants_vars_dict = _constants_vars_dict
-        self.check = check
         if self.term_content != "x" and self.term_coefficient != "":
             self.child_terms = self.classify_terms(self.parsed_list)
         else:
@@ -143,7 +143,7 @@ class Term:
             elif coef == "-":
                 coef = "-1"
             classified_term = Term(eval(coef), content, self.input_string_lookup_dict, self.input_string_lookup_dict_greater,
-            self.input_string_lookup_dict_lesser, self.constants_vars_dict, self.input_stack_level + 1)
+            self.input_string_lookup_dict_lesser, self.constants_vars_dict, self.input_stack_level + 1, self.check)
             classified_term_list.append(classified_term)
         return classified_term_list
 
@@ -179,7 +179,7 @@ class Term:
                 # append the coeff as a new term
                 # then break down the chidren terms inside the nest and add them to the array
                 coef_term = Term(term.term_coefficient, "", self.input_string_lookup_dict, self.input_string_lookup_dict_greater,
-                                 self.input_string_lookup_dict_lesser, self.constants_vars_dict, self.input_stack_level)
+                                 self.input_string_lookup_dict_lesser, self.constants_vars_dict, self.input_stack_level, self.check)
                 # set coeff to have affiliation with interior nested children's type
                 coef_term.xs_ones_both = self.xs_ones_both
                 # set the coeff term to have this status flipped on
@@ -222,7 +222,7 @@ class Term:
         # print(f"{input_term.term_content} => {fixed_terms}")
         for term in fixed_terms:
             new_term = Term(1, term, {"x": eval(self.check.true_output), "": 1}, {"x": eval(self.check.true_output)*2, "": 1},
-                            {"x": eval(self.check.true_output)/2, "": 1}, {"1's": 0, "x's": 0}, 0)
+                            {"x": eval(self.check.true_output)/2, "": 1}, {"1's": 0, "x's": 0}, 0, self.check)
             simplified_fixed_terms.append(new_term)
         return simplified_fixed_terms
 
@@ -298,7 +298,7 @@ class Term:
                         if pot_terms[i].input_stack_level == pot_terms[j].input_stack_level and not pot_terms[i].is_lone_coeff_term:
                             new_term_coeff = new_term_coeff = pot_terms[i].term_coefficient + pot_terms[j].term_coefficient
                             new_term_content = "x" if pot_terms[i].xs_ones_both == ["x"] else ""
-                            added_term = Term(new_term_coeff, new_term_content,{"x": eval(self.check.true_output), "": 1}, {"x": eval(self.check.true_output)*2, "": 1}, {"x": eval(self.check.true_output)/2, "": 1}, {"1's": 0, "x's": 0}, pot_terms[i].input_stack_level)
+                            added_term = Term(new_term_coeff, new_term_content,{"x": eval(self.check.true_output), "": 1}, {"x": eval(self.check.true_output)*2, "": 1}, {"x": eval(self.check.true_output)/2, "": 1}, {"1's": 0, "x's": 0}, pot_terms[i].input_stack_level, self.check)
                             # replace i with new term and pop j!!
                             pot_terms[i] = added_term
                             j_ind = self.search_for_id_term(pot_terms[j].id, pot_terms)
