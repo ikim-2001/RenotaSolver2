@@ -14,10 +14,8 @@ def test():
         return jsonify({"response": "Get Request Called"})
     elif request.method == "POST":
         req_json = request.json
-        json_inequalities.dict = req_json["mathpix-output"]
-        # json_inequalities.print_dict(json_inequalities.dict)
-        instance = Main(req_json)
-
+        instance = Main(req_json["mathpix-output"])
+        print(instance.main())
         return jsonify(instance.main())
 
     # req_Json = request.json
