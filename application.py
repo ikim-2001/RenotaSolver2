@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 
 import json_inequalities
 from main import *
@@ -14,9 +14,8 @@ def test():
         return jsonify({"response": "Get Request Called"})
     elif request.method == "POST":
         req_json = request.get_json()
-        instance = Main(req_json.get("mathpix-output"))
+        instance = Main(req_json["mathpix-output"])
         response = instance.main()
-        print(response)
         return jsonify(response)
 
 if __name__ == "__main__":

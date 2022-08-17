@@ -3,7 +3,7 @@ from sympy import symbols, solve, Eq
 from Checker import *
 from Terms2 import *
 from collections import deque
-
+from flask import jsonify
 
 class findMistakeTerms():
     def find_cons_vars_diff(self, term1, term2):
@@ -260,6 +260,9 @@ class Main():
         if len(self.check.text) <= 1:
             return []
         for i in range(1, len(self.check.text)):
+            # if there is no comparator
+            if not self.check.find_comparator(self.check.text[i]) or not self.check.find_comparator(self.check.text[i-1]):
+                continue
             old_comparator = self.check.find_comparator(self.check.text[i - 1])
             curr_comparator = self.check.find_comparator(self.check.text[i])
             left_side_content = self.check.text[i].strip().split(curr_comparator)[0].replace(" ", "")
@@ -543,10 +546,10 @@ class Main():
         self.check.isCorrect = self.check.verify()
 
     def final_feedback(self, res):
-        str = ""
+        string = ""
         if len(self.incorrect_indices) == 0 and not self.trueIsCorrect:
             # print("Work not finished. Please isolate x completely")
-            str += "Work not finished. Please isolate x completely\n"
+            string += "Work not finished. Please isolate x completely\n"
         else:
             for key in self.index_wrong_comparators:
                 comp = self.index_wrong_comparators[key]
@@ -554,7 +557,7 @@ class Main():
             self.trueIsCorrect = self.trueIsCorrect and self.index_wrong_comparators == {}
             if self.trueIsCorrect and len(self.index_wrong_comparators) == 0:
                 # print("Student is correct")
-                str += "Student is correct\n"
+                string += "Student is correct\n"
             else:
                 # print(f"Student's answer {self.check.student_output}")
                 # print(f"Correct answer {self.check.true_output}")
@@ -566,16 +569,20 @@ class Main():
                     st += f"and {self.incorrect_indices[len(self.incorrect_indices) - 1] + 1}"
                     # print(f"Oops! Looks like you made a mistake in lines: {st}!")
                     # print('Find your mistakes on the "{}" below:\n')
-                    str += f"Oops! Looks like you made a mistake in lines: {st}!\n"
-                    str += 'Find your mistakes on the "{}" below:\n'
+                    string += f"Oops! Looks like you made a mistake in lines: {st}!\n"
+                    string += 'Find your mistakes on the "{}" below:\n'
                 else:
                     st += f"{self.incorrect_indices[0] + 1}"
                     # print(f"Oops! Looks like you made a mistake in line: {st}!")
-                    str += f"Oops! Looks like you made a mistake in line: {st}!\n"
+                    string += f"Oops! Looks like you made a mistake in line: {st}!\n"
         for line in self.untouchable:
             # print(line)
-            str += f"{line}\n"
-        return str
+            ind = self.untouchable.index(line)
+            if "/" in self.check.input_json[ind]:
+                string += self.check.input_json[ind]+"\n"
+            else:
+                string += f"{line}\n"
+        return string
 
     # loop until done (text only has one line left)
     def main(self):
@@ -594,8 +601,14 @@ class Main():
         print(output_json)
         return output_json
 
-dict = {
-    "0": "-8x+2 < -3(2x-6)",
-    "1": "-8x+2 < -6x-18",
-    "2": "-2x+2 < -18"
-}
+dict= {0: '-8x+2 < -3(2x-6)',
+       1: '-8x+2 < -6x-18',
+       2: '+6x+6x',
+       3: '-2x+2 < -18',
+       4: '-2-2',
+       5: '(-2x)/(-2) < (-20)/(-2)',
+       6: 'x < 10'}
+instance = Main(dict)
+output = instance.main()["solver"].split("\n")
+for line in output:
+    print(line)
