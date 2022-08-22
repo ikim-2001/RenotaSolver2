@@ -1,9 +1,7 @@
 # Renota Solver
 ### The first iteration of Renota's Solver takes in Algebra 1 work, (currently single-variable equations/inequalities), and returns in "{}" any algebraic terms that were incorrectly calculated during the mathematical process.
 
-## The following instructions for running solver locally
-
-### Local Flask setup before running on Postman
+## Local Flask setup before running on Postman
 
 1. Clone the repo
    ```sh
@@ -25,7 +23,7 @@ Running the Flask application should output a localhost IP address similar to th
 
 ![LMFAO](https://github.com/ikim-2001/RenotaSolver2/blob/main/img/application.png?raw=true)
    
-### Making local POST requests on Postman
+## Making local POST requests on Postman
 
 Using your localhost IP address, enter "http://YourFlaskAppLocalHostIPaddress/test" into the URL section of Postman. 
 
