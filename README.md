@@ -21,6 +21,8 @@
    
 ### Running locally on Postman
 
+![LMFAO](https://github.com/ikim-2001/RenotaSolver2/blob/main/img/postman.png?raw=true)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
