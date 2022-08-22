@@ -19,7 +19,15 @@
    python application.py 
    ```
    
-### Running locally on Postman
+Running the Flask application should output a localhost IP address similar to the one shown below:
+
+![LMFAO](https://github.com/ikim-2001/RenotaSolver2/blob/main/img/application.png?raw=true)
+   
+### Making local POST requests on Postman
+
+Using your localhost IP address, enter "http://YourFlaskAppLocalHostIPaddress/test" into the URL section of Postman. 
+
+Format the body of your request json as shown below:
 
 ![LMFAO](https://github.com/ikim-2001/RenotaSolver2/blob/main/img/postman.png?raw=true)
 
