@@ -9,12 +9,14 @@
    ```
 2. Change into RenotaSolver2 directory
    ```sh
-   cd RenotaSolver2
+   cd RenotaSolver2/solver
    ```
-3. Install simpy module
+3. Install simpy, flask, and CORS for flask
    ```sh
-   pip install simpy
+   pip install simpy flask -U flask-cors
    ```
+   
+
 4. Run application.py 
    ```sh
    python3 application.py 
