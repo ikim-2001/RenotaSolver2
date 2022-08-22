@@ -7,15 +7,12 @@
    ```sh
    git clone https://github.com/ikim-2001/RenotaSolver2/
    ```
-2. Change into RenotaSolver2 directory
-   ```sh
-   cd RenotaSolver2/solver
-   ```
-3. Install simpy, flask, and CORS for flask
+2. Open directory in virtual environment (i.e., PyCharm)
+
+3. Download simpy, flask, and CORS for flask
    ```sh
    pip install simpy flask -U flask-cors
    ```
-   
 
 4. Run application.py 
    ```sh
