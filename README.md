@@ -16,7 +16,7 @@
 
 4. Run application.py 
    ```sh
-   python3 application.py 
+   python application.py 
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
