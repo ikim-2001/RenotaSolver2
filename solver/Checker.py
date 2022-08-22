@@ -5,16 +5,43 @@ from json_form import *
 
 class Checker():
     def __init__(self, input_json):
-
-
+        print(input_json)
+        self.input_json = input_json
         self.text = []
-        for line in json_inequalities.dict.values():
-            self.text.append(line.replace("–", "-"))
+        self.skips = {}
+        for key, line in input_json.items():
+            if "<" in line or ">" in line or "=" in line or ">=" in line or "<=" in line:
+                operand = self.find_comparator(line)
+                left, right = line.split(operand)[0].replace('(', "").replace(")", ""), line.split(operand)[
+                    1].replace('(', "").replace(")", "")
+                if "/" in left and "/" in right:
+                    self.skips[key] = line
+                    left_num, left_denom = left.split('/')[0], left.split('/')[1]
+                    right_num, right_denom = right.split("/")[0], right.split("/")[1]
+                    if self.variable in left_num:
+                        ind = left_num.index(self.variable)
+                        left_num = left_num[0:ind]
+                        left = left_num+self.variable
+                    else:
+                        # in case there are only constants
+                        left = left_num
+                    if self.variable in right_num:
+                        ind = right_num.index(self.variable)
+                        right_num = right_num[0:ind]
+                        right = right_num+self.variable
+                    else:
+                        # in case there are only constants
+                        right = right_num
+                    self.text.append(f"{left}{operand}{right}")
+                else:
+                    self.text.append(line.replace("–", "-"))
+                    self.variable = self.findvar()
+            else:
+                self.text.append(line.replace("–", "-"))
         self.problem = self.text[0].replace(" ", "")
         self.isCorrect = None
         # fixed for now heh
         self.comparator = self.find_comparator(self.text[0])
-        self.variable = self.findvar()
         self.problem = self.parse(self.problem)
         self.problem_left = self.problem.split(self.comparator)[0]
         self.problem_right = self.newlinesgone(self.problem.split(self.comparator)[-1])
@@ -27,6 +54,8 @@ class Checker():
         self.isCorrect = self.verify()
         self.consistent_comparators = None
 
+    def return_input_json(self):
+        return self.input_json
 
     # returns new self.problem where coeffs are separated to
     # vars with a * (will do parenthessis later)
@@ -114,11 +143,9 @@ class Checker():
             return ">=" if ">=" in string else "<="
         elif ">" in string or "<" in string:
             return ">" if ">" in string else "<"
-        else:
+        elif "=" in string:
             return "="
+        else:
+            return None
 
 
-
-
-
-check = Checker(input_json=None)
