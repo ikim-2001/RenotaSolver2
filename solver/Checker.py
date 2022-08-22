@@ -1,7 +1,6 @@
 from sympy import symbols, solve, Eq
 
 import json_inequalities
-from json_form import *
 
 class Checker():
     def __init__(self, input_json):
