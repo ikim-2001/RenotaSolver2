@@ -1,4 +1,6 @@
 # Renota Solver
+### The first iteration of Renota's Solver takes in Algebra 1 work, (currently single-variable equations/inequalities), and returns in "{}" any algebraic terms that were incorrectly calculated during the mathematical process.
+
 ## The following instructions for running solver locally
 
 ### Local Flask setup before running on Postman
