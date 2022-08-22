@@ -1,7 +1,7 @@
 # Renota Solver
 ## The following instructions for running solver locally
 
-### To run solver locally on Postman
+### Local Flask setup before running on Postman
 
 1. Clone the repo
    ```sh
@@ -18,6 +18,9 @@
    ```sh
    python application.py 
    ```
+   
+### Running locally on Postman
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
