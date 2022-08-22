@@ -1,3 +1,5 @@
+# Renota Solver
+## The following instructions for running solver locally
 
 ### Installation
 
